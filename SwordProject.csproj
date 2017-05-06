@@ -78,13 +78,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Inventario\Equipamento.cs" />
-    <Compile Include="Assets\Scripts\Inventario\Inventario.cs" />
-    <Compile Include="Assets\Scripts\Inventario\Itens.cs" />
-    <Compile Include="Assets\Scripts\Inventario\PainelBase.cs" />
-    <Compile Include="Assets\Scripts\Inventario\SlotEquipamento.cs" />
-    <Compile Include="Assets\Scripts\Inventario\SlotInventario.cs" />
-    <Compile Include="Assets\Scripts\Inventario\TabMenu.cs" />
+    <Compile Include="Assets\Scripts\Inventario\ControleMenuPause.cs" />
+    <Compile Include="Assets\Scripts\Inventario\DropScript.cs" />
+    <Compile Include="Assets\Scripts\Inventario\ItemScript.cs" />
+    <Compile Include="Assets\Scripts\Inventario\LayoutMenuPause.cs" />
+    <Compile Include="Assets\Scripts\Inventario\PainelScript.cs" />
+    <Compile Include="Assets\Scripts\Inventario\SlotScript.cs" />
     <Compile Include="Assets\Scripts\MENU.cs" />
     <Compile Include="Assets\Scripts\PlayerAttacking.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
