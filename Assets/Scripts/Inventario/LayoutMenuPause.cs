@@ -76,7 +76,7 @@ public class LayoutMenuPause : MonoBehaviour {
             if (i != tab)
             {
                 listaPaineis[i].gameObject.SetActive(false);
-                listaTabs[i].GetComponent<Image>().color = Color.grey;
+                listaTabs[i].GetComponent<Image>().color = Color.yellow;
             }
             else
             {
