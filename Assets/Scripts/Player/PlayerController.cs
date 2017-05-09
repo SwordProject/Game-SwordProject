@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
         {
             playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
             isJumping = false;
+            SoundScript.Instance.MakeJumpSound();
         }
         transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
 

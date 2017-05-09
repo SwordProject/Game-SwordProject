@@ -76,12 +76,12 @@ public class LayoutMenuPause : MonoBehaviour {
             if (i != tab)
             {
                 listaPaineis[i].gameObject.SetActive(false);
-                listaTabs[i].GetComponent<Image>().color = Color.yellow;
+                listaTabs[i].GetComponent<Image>().color = Color.grey;
             }
             else
             {
                 listaPaineis[tab].gameObject.SetActive(true);
-                listaTabs[tab].GetComponent<Image>().color = Color.white;
+                listaTabs[tab].GetComponent<Image>().color = Color.yellow;
             }
         }
         switch (listaPaineis[tab].name)
