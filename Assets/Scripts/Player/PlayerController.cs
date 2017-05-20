@@ -4,101 +4,82 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    //Variaveis de movimentação
     private Rigidbody2D playerRigidbody2D;
     private float jumpForce;
     private float speed;
-    public bool isJumping;
+
+    //variavel que pega a posição de inicio e fim do raicast.
+    //O raicast será usado para definir quando o personagem está no chão ou não.
     public Transform startLineCast;
     public Transform endLineCast;
+    public bool estaNoCaho;
 
-    private Animator myAnimator;
-    [SerializeField]
-    private float movementSpeed;
-    private bool facingRight;
-    private bool attack;
+    //Variaveis de controle de animação
+    private Animator playerAnimator;
+    private float controlequeda;
 
-    // Use this for initialization
     void Start()
     {
         playerRigidbody2D = GetComponent<Rigidbody2D>();
-        jumpForce = 400;
-
-        facingRight = true;
+        playerAnimator = GetComponent<Animator>();
+        jumpForce = 500;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Variaveis auxiliares de animação. 
+        setAnimator();
+
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            transform.localScale = new Vector3(2, 2, 2);
+        }
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            transform.localScale = new Vector3(-2, 2, 2);
+        }
+
+        //Verifica se o personagem esta no chao.
         raycast();
-        if (!isJumping)
+
+        if (estaNoCaho)
         {
             if (Input.GetButtonDown("Jump"))
             {
                 playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
-                isJumping = true;
+                SoundScript.Instance.MakeJumpSound();
+                estaNoCaho = false;
             }
             speed = 8;
-        }else
-            speed = 4;
-        transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
+        }
+        else
+        {
+            speed = 6;
+        }
 
-        HandleInput();
+        transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
     }
 
     private void raycast()
     {
         if (Physics2D.Linecast(startLineCast.position,endLineCast.position))
-        {
-            isJumping = false;
+            estaNoCaho = true;
+        else
+            estaNoCaho = false;
+    }
+
+    private void setAnimator()
+    {
+        if (estaNoCaho) {
+            playerAnimator.SetInteger("pulando", 0);
+            playerAnimator.SetFloat("movendo", Mathf.Abs(Input.GetAxis("Horizontal")));
         }
         else
         {
-            isJumping = true;
+            playerAnimator.SetInteger("pulando",1);
+            playerAnimator.SetFloat("movendo", 0);
         }
     }
-
-    void Fixedupdate()
-    {
-        float horizontal = Input.GetAxis("Horizontal") * movementSpeed;
-        HandleMovement(horizontal);
-        Flip(horizontal);
-        HandleAttacks();
-    }
-    private void HandleMovement(float horizontal)
-    {
-        playerRigidbody2D.velocity = new Vector2(horizontal * movementSpeed, playerRigidbody2D.velocity.y);
-    }
-    private void HandleAttacks()
-    {
-        if (attack)
-        {
-            myAnimator.SetTrigger("attack");
-        }
-    }
-
-    private void HandleInput()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            attack = true;
-        }
-    }
-    private void Flip(float horizontal)
-    {
-        if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
-        {
-            facingRight = !facingRight;
-            Vector3 theScale = transform.localScale;
-            theScale.x *= -1;
-            transform.localScale = theScale;
-        }
-
-    }
-    private void ResetValues()
-    {
-        attack = false;
-    }
-
 }
 
