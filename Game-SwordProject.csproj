@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CameraSeguir.cs" />
     <Compile Include="Assets\Scripts\Inventario\ControleMenuPause.cs" />
     <Compile Include="Assets\Scripts\Inventario\DropScript.cs" />
     <Compile Include="Assets\Scripts\Inventario\ItemScript.cs" />

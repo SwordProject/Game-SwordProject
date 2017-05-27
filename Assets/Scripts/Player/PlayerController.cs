@@ -13,11 +13,14 @@ public class PlayerController : MonoBehaviour
     //O raicast será usado para definir quando o personagem está no chão ou não.
     public Transform startLineCast;
     public Transform endLineCast;
-    public bool estaNoCaho;
+    private bool estaNoCaho;
 
     //Variaveis de controle de animação
     private Animator playerAnimator;
     private float controlequeda;
+
+    //Atributos do Sangue
+    private float vitalidade = 100;
 
     void Start()
     {
@@ -28,16 +31,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        float sangue = 156 * vitalidade / 100;
+        GameObject.Find("BarraVitalidade").GetComponent<RectTransform>().sizeDelta = new Vector2(sangue, 10);
         //Variaveis auxiliares de animação. 
         setAnimator();
 
         if (Input.GetAxis("Horizontal") > 0)
         {
             transform.localScale = new Vector3(2, 2, 2);
+            GameObject.Find("Main Camera").GetComponent<CameraSeguir>().setScreenFront();
         }
         if (Input.GetAxis("Horizontal") < 0)
         {
             transform.localScale = new Vector3(-2, 2, 2);
+            GameObject.Find("Main Camera").GetComponent<CameraSeguir>().setScreenBack();
         }
 
         //Verifica se o personagem esta no chao.
@@ -73,12 +80,12 @@ public class PlayerController : MonoBehaviour
     {
         if (estaNoCaho) {
             playerAnimator.SetInteger("pulando", 0);
-            playerAnimator.SetFloat("movendo", Mathf.Abs(Input.GetAxis("Horizontal")));
+            playerAnimator.SetFloat("correndo", Mathf.Abs(Input.GetAxis("Horizontal")));
         }
         else
         {
             playerAnimator.SetInteger("pulando",1);
-            playerAnimator.SetFloat("movendo", 0);
+            playerAnimator.SetFloat("correndo", 0);
         }
     }
 }

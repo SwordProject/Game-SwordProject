@@ -31,7 +31,7 @@ public class PainelScript : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            if (index + pulodeSlot <= listaSlots.Count)
+            if (index + pulodeSlot < listaSlots.Count)
                 index += pulodeSlot;
         }
         if (Input.GetKeyDown(KeyCode.Return))
