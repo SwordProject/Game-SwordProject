@@ -20,22 +20,27 @@ public class PlayerController : MonoBehaviour
     private float controlequeda;
 
     //Atributos do Sangue
-    private float vitalidade = 100;
+    public float vitalidade;
 
     void Start()
     {
         playerRigidbody2D = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         jumpForce = 500;
+        //Inicia a barra de vitalidade do personagem
+        vitalidade = 100;
     }
 
     void Update()
     {
-        float sangue = 156 * vitalidade / 100;
-        GameObject.Find("BarraVitalidade").GetComponent<RectTransform>().sizeDelta = new Vector2(sangue, 10);
-        //Variaveis auxiliares de animação. 
+        //Set a vitalidade o player
+        if(vitalidade>0)
+            GameObject.Find("BarraVitalidade").GetComponent<RectTransform>().sizeDelta = new Vector2(156 * vitalidade / 100, 10);
+
+        //Chama metodo de animação. 
         setAnimator();
 
+        //Rotaciona o player para direita ou esquerda. 
         if (Input.GetAxis("Horizontal") > 0)
         {
             transform.localScale = new Vector3(2, 2, 2);
@@ -88,5 +93,21 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetFloat("correndo", 0);
         }
     }
-}
 
+    public void setVitalidade(float dano)
+    {
+        if(vitalidade - dano <= 0)
+        {
+            vitalidade = 0;
+        }
+        else
+        {
+            vitalidade -= dano;
+        }
+    }
+
+    public float getVitalidade()
+    {
+        return vitalidade;
+    }
+}

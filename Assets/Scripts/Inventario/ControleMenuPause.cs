@@ -12,6 +12,14 @@ public class ControleMenuPause : MonoBehaviour {
     private bool isActive = false;
     public List<itemInventario> listaItens = new List<itemInventario>();
 
+    //Variaveis Game over
+    public Transform gameOverScreen;
+    public float tempoParaReiniciar = 5f;
+    float restartTimer;
+
+    //Variaveis HUD
+    public Transform HUD;
+
     public struct itemInventario
     {
         public GameObject item;
@@ -30,6 +38,8 @@ public class ControleMenuPause : MonoBehaviour {
         {
             setActiveMenu();
         }
+
+        gameOver();
     }
     
     public bool addAoInventario(GameObject item, int qnt)
@@ -77,6 +87,24 @@ public class ControleMenuPause : MonoBehaviour {
             Time.timeScale = 1;
             pauseMenu.GetComponent<LayoutMenuPause>().setisActiveTab(0);
             pauseMenu.gameObject.SetActive(false);
+        }
+    }
+
+    public void gameOver()
+    {
+        if (player.GetComponent<PlayerController>().getVitalidade() <= 0)
+        {
+            if (gameOverScreen.gameObject.activeSelf == false)
+            {
+                gameOverScreen.gameObject.SetActive(true);
+                HUD.gameObject.SetActive(false);
+            }
+            restartTimer += Time.deltaTime;
+            GameObject.Find("TimeBar").GetComponent<RectTransform>().sizeDelta = new Vector2(380 * restartTimer / 5, 10);
+            if (restartTimer >= tempoParaReiniciar)
+            {
+                SceneManager.LoadScene("Level 1");
+            }
         }
     }
 }

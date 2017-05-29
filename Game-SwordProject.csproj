@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Inventario\LayoutMenuPause.cs" />
     <Compile Include="Assets\Scripts\Inventario\PainelScript.cs" />
     <Compile Include="Assets\Scripts\Inventario\SlotScript.cs" />
+    <Compile Include="Assets\Scripts\Kunai.cs" />
     <Compile Include="Assets\Scripts\MENU.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Respawn.cs" />

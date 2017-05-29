@@ -25,7 +25,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 442}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 10840
+  controlID: 7660
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
-  controlID: 10818
+  controlID: 7661
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -180,14 +180,14 @@ MonoBehaviour:
     width: 648
     height: 305
   m_SceneLighting: 1
-  lastFramingTime: 2857.038097888938
+  lastFramingTime: 4464.05891824077
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 324, y: 135.5, z: 0}
+    m_Target: {x: 0, y: 0, z: 0}
     speed: 2
-    m_Value: {x: 324, y: 135.5, z: 0}
+    m_Value: {x: 0, y: 0, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -214,9 +214,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 304.84213
+    m_Target: 2.339046
     speed: 2
-    m_Value: 304.84213
+    m_Value: 2.339046
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -251,7 +251,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 92
-    width: 649
+    width: 648
     height: 305
   m_ViewPositions:
     m_KeySerializationHelper:
@@ -259,9 +259,9 @@ MonoBehaviour:
     - {fileID: 1107758214653563882, guid: 2dcb431f044fbcc4dadcbae4bc21b63e, type: 2}
     - {fileID: 1107420629066181930, guid: 2dcb431f044fbcc4dadcbae4bc21b63e, type: 2}
     m_ValueSerializationHelper:
-    - {x: 339.40002, y: 163}
+    - {x: 338.80002, y: 163}
     - {x: 529.4, y: 117}
-    - {x: 339.40002, y: 231}
+    - {x: 585.4, y: 205}
   m_PreviewAnimator: {fileID: 0}
   m_AnimatorController: {fileID: 9100000, guid: 2dcb431f044fbcc4dadcbae4bc21b63e,
     type: 2}
@@ -386,9 +386,9 @@ MonoBehaviour:
     height: 614
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4079ffff
-    m_LastClickedID: -34496
-    m_ExpandedIDs: 28cdffff16ceffff20f4ffffe2fbffff000000005c270000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 6478ffffe4b5ffffe2fbffff00000000c8270000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -473,19 +473,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Scripts
+    - Assets/Sprites/Player
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Sprites/Player
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Jonathan\Documents\GitHub\Game-SwordProject
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 42250000
-    m_LastClickedID: 9538
-    m_ExpandedIDs: 00000000c6240000422500006a250000a82a0000aa2a000000ca9a3bffffff7f
+    m_SelectedIDs: bc250000
+    m_LastClickedID: 9660
+    m_ExpandedIDs: 00000000c6240000522500007a250000882b00008a2b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -513,7 +513,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c6240000422500006a250000a82a0000aa2a000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000c6240000522500007a250000882b00008a2b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -538,8 +538,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 4079ffff
-    m_LastClickedInstanceID: -34496
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 2e55feff622500002e2c0000422c0000502c0000262d00001a2d00003c2e0000e2390000404700004282ffffb82500005c25000006250000
     m_RenameOverlay:
@@ -565,7 +565,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 2}
+    m_ScrollPosition: {x: 0, y: 188}
     m_GridSize: 64
   m_DirectoriesAreaWidth: 110
 --- !u!114 &13
