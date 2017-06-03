@@ -79,17 +79,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraSeguir.cs" />
-    <Compile Include="Assets\Scripts\Inventario\ControleMenuPause.cs" />
-    <Compile Include="Assets\Scripts\Inventario\DropScript.cs" />
-    <Compile Include="Assets\Scripts\Inventario\ItemScript.cs" />
-    <Compile Include="Assets\Scripts\Inventario\LayoutMenuPause.cs" />
-    <Compile Include="Assets\Scripts\Inventario\PainelScript.cs" />
-    <Compile Include="Assets\Scripts\Inventario\SlotScript.cs" />
-    <Compile Include="Assets\Scripts\Kunai.cs" />
+    <Compile Include="Assets\Scripts\Canvas\Hud\Hud.cs" />
+    <Compile Include="Assets\Scripts\Canvas\MenuPalse\MenuPause.cs" />
+    <Compile Include="Assets\Scripts\Canvas\MenuPalse\PainelConfig.cs" />
+    <Compile Include="Assets\Scripts\Canvas\MenuPalse\PainelEquipamento.cs" />
+    <Compile Include="Assets\Scripts\Canvas\MenuPalse\PainelInventario.cs" />
+    <Compile Include="Assets\Scripts\Canvas\SlotScript.cs" />
+    <Compile Include="Assets\Scripts\DropScript.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\Inimigos\Inimigos.cs" />
+    <Compile Include="Assets\Scripts\Itens\ItensBase.cs" />
+    <Compile Include="Assets\Scripts\Itens\Kunai.cs" />
+    <Compile Include="Assets\Scripts\Itens\PocaoHP.cs" />
+    <Compile Include="Assets\Scripts\Itens\PocaoMP.cs" />
     <Compile Include="Assets\Scripts\MENU.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Respawn.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundScript.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Prefabs\Particulas\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

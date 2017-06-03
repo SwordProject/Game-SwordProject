@@ -21,22 +21,29 @@ public class PlayerController : MonoBehaviour
 
     //Atributos do Sangue
     public float vitalidade;
+    public ParticleSystem particulaSangue;
+    public ParticleSystem particulaVida;
+
+    //Atributos de Energia
+    public float energia;
+    public ParticleSystem particulaEnergia;
+
+    //Controle do game
+    private GameController gameController;
 
     void Start()
     {
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerRigidbody2D = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         jumpForce = 500;
         //Inicia a barra de vitalidade do personagem
         vitalidade = 100;
+        energia = 100;
     }
 
     void Update()
     {
-        //Set a vitalidade o player
-        if(vitalidade>0)
-            GameObject.Find("BarraVitalidade").GetComponent<RectTransform>().sizeDelta = new Vector2(156 * vitalidade / 100, 10);
-
         //Chama metodo de animação. 
         setAnimator();
 
@@ -71,6 +78,19 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            gameController.usarItem(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            gameController.usarItem(2);
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            gameController.usarItem(4);
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+            gameController.usarItem(5);
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            gameController.usarItem(6);
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+            gameController.usarItem(7);
     }
 
     private void raycast()
@@ -94,15 +114,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void setVitalidade(float dano)
+    public void addDano(float dano)
     {
-        if(vitalidade - dano <= 0)
+        particulaSangue.Play();
+        if (vitalidade - dano <= 0)
         {
             vitalidade = 0;
         }
         else
         {
             vitalidade -= dano;
+        }
+    }
+
+    public void addVitalidade(float vida)
+    {
+        particulaVida.Play();
+        if (vitalidade + vida >= 100)
+        {
+            vitalidade = 100;
+        }
+        else
+        {
+            vitalidade += vida;
+        }
+    }
+
+    public void addEnergia(float mp)
+    {
+        particulaEnergia.Play();
+        if (energia + mp >= 100)
+        {
+            energia = 100;
+        }
+        else
+        {
+            energia += mp;
         }
     }
 
