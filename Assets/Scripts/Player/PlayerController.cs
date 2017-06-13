@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             atack = true;
             if (Vector3.Distance(transform.GetChild(2).position, inimigo) < 2)
             {
-                myInimigo.GetComponent<Inimigos>().addDano(25);
+                myInimigo.GetComponent<Inimigos>().addDano(15);
             }
         }
 
