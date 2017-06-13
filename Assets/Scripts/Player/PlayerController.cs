@@ -15,9 +15,13 @@ public class PlayerController : MonoBehaviour
     public Transform endLineCast;
     private bool estaNoCaho;
 
+    //Animação atack
+    private float timeAtack = 0.08f;
+    private float timeDecorridoAtack;
+    private bool atack;
+
     //Variaveis de controle de animação
     private Animator playerAnimator;
-    private float controlequeda;
 
     //Atributos do Sangue
     public float vitalidade;
@@ -31,6 +35,11 @@ public class PlayerController : MonoBehaviour
     //Controle do game
     private GameController gameController;
 
+    //Inimigos
+    private Vector3 inimigo;
+    private GameObject myInimigo;
+    public LayerMask layerInimigo;
+
     void Start()
     {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
@@ -40,10 +49,20 @@ public class PlayerController : MonoBehaviour
         //Inicia a barra de vitalidade do personagem
         vitalidade = 100;
         energia = 100;
+        atack = false;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            atack = true;
+            if (Vector3.Distance(transform.GetChild(2).position, inimigo) < 2)
+            {
+                myInimigo.GetComponent<Inimigos>().addDano(25);
+            }
+        }
+
         //Chama metodo de animação. 
         setAnimator();
 
@@ -70,19 +89,24 @@ public class PlayerController : MonoBehaviour
                 SoundScript.Instance.MakeJumpSound();
                 estaNoCaho = false;
             }
-            speed = 8;
+                speed = 8;
         }
         else
-        {
             speed = 6;
-        }
 
         transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
-            gameController.usarItem(0);
+        {
+            if (energia > 0)
+            {
+                removeEnargia(20);
+                gameController.usarMagia(0, inimigo);
+            }
+        }
+        localizaInimigos();
         if (Input.GetKeyDown(KeyCode.Alpha2))
-            gameController.usarItem(2);
+            gameController.usarArremessavel(2, inimigo);
         if (Input.GetKeyDown(KeyCode.Alpha3))
             gameController.usarItem(4);
         if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -95,22 +119,48 @@ public class PlayerController : MonoBehaviour
 
     private void raycast()
     {
-        if (Physics2D.Linecast(startLineCast.position,endLineCast.position))
-            estaNoCaho = true;
+        RaycastHit2D hit = Physics2D.Linecast(startLineCast.position, endLineCast.position);
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.tag == "Ground")
+                estaNoCaho = true;
+            else
+                estaNoCaho = false;
+        }
         else
             estaNoCaho = false;
     }
 
     private void setAnimator()
     {
-        if (estaNoCaho) {
-            playerAnimator.SetInteger("pulando", 0);
-            playerAnimator.SetFloat("correndo", Mathf.Abs(Input.GetAxis("Horizontal")));
+        if (!atack)
+        {
+            if (estaNoCaho)
+            {
+                playerAnimator.SetInteger("pulando", 0);
+                playerAnimator.SetFloat("correndo", Mathf.Abs(Input.GetAxis("Horizontal")));
+            }
+            else
+            {
+                playerAnimator.SetInteger("pulando", 1);
+                playerAnimator.SetFloat("correndo", 0);
+            }
         }
         else
         {
-            playerAnimator.SetInteger("pulando",1);
-            playerAnimator.SetFloat("correndo", 0);
+            if (timeDecorridoAtack >= timeAtack)
+            {
+                playerAnimator.SetBool("atack", false);
+                atack = false;
+                timeDecorridoAtack = 0;
+            }
+            else
+            {
+                playerAnimator.SetBool("atack", true);
+                playerAnimator.SetInteger("pulando", 0);
+                playerAnimator.SetFloat("correndo", 0);
+                timeDecorridoAtack += Time.deltaTime;
+            }
         }
     }
 
@@ -125,6 +175,14 @@ public class PlayerController : MonoBehaviour
         {
             vitalidade -= dano;
         }
+    }
+
+    public void removeEnargia(float valor)
+    {
+        if (energia - valor <= 0)
+            energia = 0;
+        else
+            energia -= valor;
     }
 
     public void addVitalidade(float vida)
@@ -156,5 +214,31 @@ public class PlayerController : MonoBehaviour
     public float getVitalidade()
     {
         return vitalidade;
+    }
+
+    public void setInimigo(Vector3 inimigo)
+    {
+        this.inimigo = inimigo;
+    }
+
+    private void localizaInimigos()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(startLineCast.position, 15f, layerInimigo.value);
+        if (colliders.Length > 0)
+        {
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                if (Vector3.Distance(transform.position, inimigo) > Vector3.Distance(transform.position, colliders[i].transform.position))
+                {
+                    inimigo = colliders[i].transform.position;
+                    myInimigo = colliders[i].gameObject;
+                }
+            }
+        }
+        else
+        {
+            inimigo = Vector3.zero;
+            myInimigo = null;
+        }
     }
 }

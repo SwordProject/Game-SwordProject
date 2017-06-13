@@ -14,9 +14,4 @@ public class PocaoHP : ItensBase {
         player.addVitalidade(50);
         Destroy(gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

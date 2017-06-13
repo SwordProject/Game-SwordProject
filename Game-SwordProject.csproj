@@ -88,12 +88,15 @@
     <Compile Include="Assets\Scripts\DropScript.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\Inimigos\Inimigos.cs" />
+    <Compile Include="Assets\Scripts\Inimigos\Morcego.cs" />
     <Compile Include="Assets\Scripts\Itens\ItensBase.cs" />
     <Compile Include="Assets\Scripts\Itens\Kunai.cs" />
+    <Compile Include="Assets\Scripts\Itens\Magia.cs" />
     <Compile Include="Assets\Scripts\Itens\PocaoHP.cs" />
     <Compile Include="Assets\Scripts\Itens\PocaoMP.cs" />
     <Compile Include="Assets\Scripts\MENU.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Player\Radar.cs" />
     <Compile Include="Assets\Scripts\Respawn.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundScript.cs" />
   </ItemGroup>

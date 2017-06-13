@@ -282,19 +282,81 @@ public class GameController : MonoBehaviour {
         return retorno;
     }
 
+    public void usarMagia(int index,Vector3 direcaoInimigo)
+    {
+        if (itensEquipados[index].item != null)
+        {
+            if (!Vector3.Equals(direcaoInimigo, Vector3.zero))
+            {
+                Vector3 playerPivo = player.transform.GetChild(2).transform.position;
+                Vector3 direcao = direcaoInimigo - playerPivo;
+                GameObject itemUsado = Instantiate(itensEquipados[index].item, Vector3.Normalize(direcao) * 2 + playerPivo, Quaternion.Euler(direcao + playerPivo));
+                itemUsado.GetComponent<ItensBase>().setDirecao(direcao);
+            }
+            else
+            {
+                Vector3 playerPivo = player.transform.GetChild(2).transform.position;
+                int pivo;
+                if (player.transform.localScale.x>0)
+                    pivo = 1;
+                else
+                    pivo = -1;
+                GameObject itemUsado = Instantiate(itensEquipados[index].item,new Vector3(playerPivo.x+(1.1f*pivo),playerPivo.y,playerPivo.z),player.transform.rotation);
+                Vector3 auxS = new Vector3(itemUsado.transform.localScale.x*pivo, itemUsado.transform.localScale.y, itemUsado.transform.localScale.z);
+                itemUsado.transform.localScale = auxS;
+            }
+
+            itemLista novoItem = new itemLista();
+            if (itensEquipados[index].quantidade - 1 <= 0)
+            {
+                novoItem.item = null;
+                novoItem.quantidade = 0;
+            }
+            else
+            {
+                novoItem.item = itensEquipados[index].item;
+                novoItem.quantidade = itensEquipados[index].quantidade - 1;
+            }
+            itensEquipados[index] = novoItem;
+        }
+    }
+    public void usarArremessavel(int index, Vector3 direcaoInimigo)
+    {
+        if (itensEquipados[index].item != null)
+        {
+            Vector3 playerPivo = player.transform.GetChild(2).transform.position;
+            int pivo;
+            if (player.transform.localScale.x > 0)
+                pivo = 1;
+            else
+                pivo = -1;
+            GameObject itemUsado = Instantiate(itensEquipados[index].item, new Vector3(playerPivo.x + (1.1f * pivo), playerPivo.y, playerPivo.z), player.transform.rotation);
+            Vector3 auxS = new Vector3(itemUsado.transform.localScale.x * pivo, itemUsado.transform.localScale.y, itemUsado.transform.localScale.z);
+            itemUsado.transform.localScale = auxS;
+
+            itemLista novoItem = new itemLista();
+            if (itensEquipados[index].quantidade - 1 <= 0)
+            {
+                novoItem.item = null;
+                novoItem.quantidade = 0;
+            }
+            else
+            {
+                novoItem.item = itensEquipados[index].item;
+                novoItem.quantidade = itensEquipados[index].quantidade - 1;
+            }
+            itensEquipados[index] = novoItem;
+        }
+    }
+
     public void usarItem(int index)
     {
         if (itensEquipados[index].item != null)
         {
-            float pivo = 0;
-            if (player.transform.localScale.x >= 0)
-                pivo = 1.2f;
-            else
-                pivo = -1.2f;
-            GameObject itemUsado = Instantiate(itensEquipados[index].item, new Vector3(player.transform.position.x + pivo, player.transform.position.y + 1.2f), player.transform.rotation);
-            itemUsado.transform.localScale = player.transform.localScale;
-            itemLista novoItem = new itemLista();
+            GameObject itemUsado = Instantiate(itensEquipados[index].item,player.transform.position,player.transform.rotation,player.transform);
+            itemUsado.GetComponent<ItensBase>().setDirecao(Vector3.zero);
 
+            itemLista novoItem = new itemLista();
             if (itensEquipados[index].quantidade - 1 <= 0)
             {
                 novoItem.item = null;

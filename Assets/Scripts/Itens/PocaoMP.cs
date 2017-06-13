@@ -14,9 +14,4 @@ public class PocaoMP : ItensBase {
         player.addEnergia(25);
         Destroy(gameObject);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

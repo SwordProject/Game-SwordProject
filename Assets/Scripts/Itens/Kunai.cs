@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,13 +16,14 @@ public class Kunai : ItensBase {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 direcao;
+        Vector3 direcaoFrente;
         if (gameObject.transform.localScale.x >= 0)
-            direcao = Vector3.right;
+            direcaoFrente = Vector3.right;
         else
-            direcao = Vector3.left;
-        transform.Translate(direcao * velocidade * Time.deltaTime);
-        raycast();
+            direcaoFrente = Vector3.left;
+        transform.Translate(direcaoFrente * velocidade * Time.deltaTime);
+        if (!gameObject.GetComponent<BoxCollider2D>().enabled)
+            raycast();
     }
 
     private void raycast()
@@ -29,14 +31,18 @@ public class Kunai : ItensBase {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right,0.35f);
         if (hit.collider != null)
         {
-            velocidade = 0;
-            gameObject.GetComponent<BoxCollider2D>().enabled = true;
-
             if (hit.collider.gameObject.tag == "Player")
             {
-                hit.collider.GetComponent<PlayerController>().addDano(25);
+                hit.collider.GetComponent<PlayerController>().addDano(10);
                 Destroy(gameObject);
             }
+            if (hit.collider.gameObject.tag == "Enemy")
+            {
+                hit.collider.GetComponent<Inimigos>().addDano(15);
+                Destroy(gameObject);
+            }
+            if (hit.collider.gameObject.tag == "Arm")
+                Destroy(gameObject);
         }
     }
 }
