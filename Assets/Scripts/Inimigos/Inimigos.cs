@@ -38,7 +38,8 @@ public abstract class Inimigos : MonoBehaviour
     {
         if (vitalidade <= 0)
         {
-            Destroy(gameObject);
+            particulaSangue.Play();
+            Destroy(gameObject,0.2f);
         }
         if (timeDecisao >= 3)
         {

@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour {
 
     void Start()
     {
+        player = GameObject.Find("Player").transform;
         for (int i = 0; i < 8; i++)
         {
             itemLista itemVazio = new itemLista();
@@ -290,7 +291,7 @@ public class GameController : MonoBehaviour {
             {
                 Vector3 playerPivo = player.transform.GetChild(2).transform.position;
                 Vector3 direcao = direcaoInimigo - playerPivo;
-                GameObject itemUsado = Instantiate(itensEquipados[index].item, Vector3.Normalize(direcao) * 2 + playerPivo, Quaternion.Euler(direcao + playerPivo));
+                GameObject itemUsado = Instantiate(itensEquipados[index].item, Vector3.Normalize(direcao) * 2 + playerPivo, player.transform.rotation);
                 itemUsado.GetComponent<ItensBase>().setDirecao(direcao);
             }
             else

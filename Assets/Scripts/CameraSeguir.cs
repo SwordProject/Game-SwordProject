@@ -12,8 +12,8 @@ public class CameraSeguir : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        player = GameObject.Find("Player").transform;
+    }
 
     // Update is called once per frame
     void Update()

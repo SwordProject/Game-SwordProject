@@ -16,9 +16,12 @@ public class PlayerController : MonoBehaviour
     private bool estaNoCaho;
 
     //Animação atack
-    private float timeAtack = 0.08f;
-    private float timeDecorridoAtack;
+    public float tempoEntreAtack = 0.1f;
+    private float timeDecorridoAtack=0;
+    private float durationAtack=0;
+    private float maxDurationAtack = 0.8f;
     private bool atack;
+    private bool darDano = false;
 
     //Variaveis de controle de animação
     private Animator playerAnimator;
@@ -54,12 +57,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (durationAtack == 0 && timeDecorridoAtack >= tempoEntreAtack)
         {
-            atack = true;
-            if (Vector3.Distance(transform.GetChild(2).position, inimigo) < 2)
+            if (Input.GetKeyDown(KeyCode.T))
             {
-                myInimigo.GetComponent<Inimigos>().addDano(15);
+                atack = true;
+                darDano = true;
             }
         }
 
@@ -115,6 +118,7 @@ public class PlayerController : MonoBehaviour
             gameController.usarItem(6);
         if (Input.GetKeyDown(KeyCode.Alpha6))
             gameController.usarItem(7);
+        timeDecorridoAtack += Time.deltaTime;
     }
 
     private void raycast()
@@ -135,6 +139,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!atack)
         {
+            playerAnimator.SetBool("atack", false);
             if (estaNoCaho)
             {
                 playerAnimator.SetInteger("pulando", 0);
@@ -148,10 +153,13 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (timeDecorridoAtack >= timeAtack)
+            durationAtack += Time.deltaTime;
+            if (durationAtack >= maxDurationAtack)
             {
-                playerAnimator.SetBool("atack", false);
                 atack = false;
+                darDano = false;
+                playerAnimator.SetBool("atack", false);
+                durationAtack = 0;
                 timeDecorridoAtack = 0;
             }
             else
@@ -159,7 +167,11 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.SetBool("atack", true);
                 playerAnimator.SetInteger("pulando", 0);
                 playerAnimator.SetFloat("correndo", 0);
-                timeDecorridoAtack += Time.deltaTime;
+                if (darDano && myInimigo != null && Vector3.Distance(transform.GetChild(2).position, inimigo) < 1.8f)
+                {
+                    myInimigo.GetComponent<Inimigos>().addDano(25);
+                    darDano = false;
+                }
             }
         }
     }
