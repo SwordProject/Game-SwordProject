@@ -113,7 +113,7 @@ public class PainelInventario : MonoBehaviour {
         float auxX = espaçoEntreSlot + tamanhoSlot / 2;
         float auxY = -(espaçoEntreSlot + tamanhoSlot / 2);
         int colunas = 0;
-        for (int i = 0; i < gameController.limiteSlots; i++)
+        for (int i = 0; i < 25; i++)
         {
             listaSlots.Add(Instantiate(slot, PainelConteudo.transform));
             listaSlots[i].name = "Slot " + i;

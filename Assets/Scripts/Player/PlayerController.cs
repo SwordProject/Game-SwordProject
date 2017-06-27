@@ -39,19 +39,24 @@ public class PlayerController : MonoBehaviour
     private GameController gameController;
 
     //Inimigos
-    private Vector3 inimigo;
-    private GameObject myInimigo;
+    public List<Transform> listaInimigos = new List<Transform>();
     public LayerMask layerInimigo;
+
+    //Queda por muito tempo
+    private float timeQueda = 0;
+
+    private DB baseDado;
 
     void Start()
     {
+        baseDado = GameObject.Find("DB").GetComponent<DB>();
+        this.vitalidade = baseDado.vitalidade;
+        this.energia = baseDado.energia;
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerRigidbody2D = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         jumpForce = 500;
         //Inicia a barra de vitalidade do personagem
-        vitalidade = 100;
-        energia = 100;
         atack = false;
     }
 
@@ -59,7 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         if (durationAtack == 0 && timeDecorridoAtack >= tempoEntreAtack)
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetButton("Fire1"))
             {
                 atack = true;
                 darDano = true;
@@ -92,10 +97,18 @@ public class PlayerController : MonoBehaviour
                 SoundScript.Instance.MakeJumpSound();
                 estaNoCaho = false;
             }
-                speed = 8;
+            speed = 8;
+            timeQueda = 0;
         }
         else
+        {
+            timeQueda += Time.deltaTime;
+            if (timeQueda > 3)
+                addDano(100);
             speed = 6;
+        }
+        if (atack)
+            speed = 3;
 
         transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
 
@@ -104,12 +117,12 @@ public class PlayerController : MonoBehaviour
             if (energia > 0)
             {
                 removeEnargia(20);
-                gameController.usarMagia(0, inimigo);
+                gameController.usarMagia(0, inimigoMaisProximo());
             }
         }
         localizaInimigos();
         if (Input.GetKeyDown(KeyCode.Alpha2))
-            gameController.usarArremessavel(2, inimigo);
+            gameController.usarArremessavel(2, inimigoMaisProximo());
         if (Input.GetKeyDown(KeyCode.Alpha3))
             gameController.usarItem(4);
         if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -167,11 +180,8 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.SetBool("atack", true);
                 playerAnimator.SetInteger("pulando", 0);
                 playerAnimator.SetFloat("correndo", 0);
-                if (darDano && myInimigo != null && Vector3.Distance(transform.GetChild(2).position, inimigo) < 1.8f)
-                {
-                    myInimigo.GetComponent<Inimigos>().addDano(25);
-                    darDano = false;
-                }
+                if (darDano && listaInimigos.Count>0)
+                    atackFisicoInimigos();
             }
         }
     }
@@ -228,9 +238,21 @@ public class PlayerController : MonoBehaviour
         return vitalidade;
     }
 
-    public void setInimigo(Vector3 inimigo)
+
+    public float getEnergia()
     {
-        this.inimigo = inimigo;
+        return energia;
+    }
+
+    public void setVitalidade(float vitalidade)
+    {
+        this.vitalidade = vitalidade;
+    }
+
+
+    public void setEnergia(float energia)
+    {
+        this.energia = energia;
     }
 
     private void localizaInimigos()
@@ -238,19 +260,43 @@ public class PlayerController : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(startLineCast.position, 15f, layerInimigo.value);
         if (colliders.Length > 0)
         {
+            listaInimigos.Clear();
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (Vector3.Distance(transform.position, inimigo) > Vector3.Distance(transform.position, colliders[i].transform.position))
-                {
-                    inimigo = colliders[i].transform.position;
-                    myInimigo = colliders[i].gameObject;
-                }
+                listaInimigos.Add(colliders[i].transform);
             }
         }
         else
         {
-            inimigo = Vector3.zero;
-            myInimigo = null;
+            listaInimigos.Clear();
         }
+    }
+
+    private void atackFisicoInimigos()
+    {
+        if (listaInimigos.Count > 0)
+        {
+            foreach (Transform inimigo in listaInimigos)
+            {
+                if (Vector2.Distance(transform.GetChild(2).position, inimigo.position) < 2)
+                {
+                    inimigo.GetComponent<Inimigos>().addDano(25);
+                    darDano = false;
+                }
+            }
+        }
+    }
+
+    private Vector3 inimigoMaisProximo()
+    {
+        Vector3 inimigoProximo = new Vector3();
+        foreach (Transform inimigo in listaInimigos)
+        {
+            if (Vector2.Distance(transform.GetChild(2).position, inimigo.position) < Vector2.Distance(transform.GetChild(2).position, inimigoProximo))
+            {
+                inimigoProximo = inimigo.position;
+            }
+        }
+        return inimigoProximo;
     }
 }
