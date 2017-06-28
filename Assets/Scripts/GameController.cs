@@ -10,8 +10,14 @@ public class GameController : MonoBehaviour {
     public Transform pauseMenu;
     public Transform player;
     private bool isActive = false;
-    public List<DB.itemLista> listaItens = new List<DB.itemLista>();
-    public List<DB.itemLista> itensEquipados = new List<DB.itemLista>();
+    public List<itemControler> listaItens = new List<itemControler>();
+    public List<itemControler> itensEquipados = new List<itemControler>();
+
+    public struct itemControler
+    {
+        public GameObject item;
+        public int quantidade;
+    }
 
     //Variaveis Game over
     public Transform gameOverScreen;
@@ -29,13 +35,27 @@ public class GameController : MonoBehaviour {
         Time.timeScale = 1f;
         player = GameObject.Find("Player").transform;
         baseDado = GameObject.Find("DB").GetComponent<DB>();
-        this.listaItens = baseDado.listaItens;
-        this.itensEquipados = baseDado.itensEquipados;
+        for (int i = 0; i < baseDado.listaItensDB.Count; i++)
+        {
+            itemControler newItem = new itemControler();
+            newItem.item = baseDado.listaItensDB[i].item;
+            newItem.quantidade = baseDado.listaItensDB[i].quantidade;
+            listaItens.Add(newItem);
+        }
+        for (int i = 0; i < baseDado.listaEquipadosDB.Count; i++)
+        {
+            itemControler newItem = new itemControler();
+            newItem.item = baseDado.listaEquipadosDB[i].item;
+            newItem.quantidade = baseDado.listaEquipadosDB[i].quantidade;
+            itensEquipados.Add(newItem);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(listaItens.Count);
+        Debug.Log(baseDado.listaItensDB.Count);
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             setActiveMenu();
@@ -69,7 +89,7 @@ public class GameController : MonoBehaviour {
             GameObject novoItem = itensEquipados[indexEqui].item;
             int novaQuant = itensEquipados[indexEqui].quantidade;
             itensEquipados[indexEqui] = listaItens[indexIven];
-            DB.itemLista itemNull = new DB.itemLista();
+            itemControler itemNull = new itemControler();
             itemNull.item = null;
             itemNull.quantidade = 0;
             listaItens[indexIven] = itemNull;
@@ -82,7 +102,7 @@ public class GameController : MonoBehaviour {
     
     public bool addAoInventario(GameObject item, int qnt)
     {
-        DB.itemLista novoItem = new DB.itemLista();
+        itemControler novoItem = new itemControler();
         novoItem.item = item;
         novoItem.quantidade = qnt;
         for (int i = 0; i < itensEquipados.Count; i++)
@@ -119,7 +139,7 @@ public class GameController : MonoBehaviour {
     {
         GameObject objetoSolto = Instantiate(prefabeDrop,new Vector3(player.transform.position.x-1.2f, player.transform.position.y+0.2f),player.transform.rotation);
         objetoSolto.GetComponent<DropScript>().setDrop(listaItens[index].item, listaItens[index].quantidade);
-        DB.itemLista novoItem = new DB.itemLista();
+        itemControler novoItem = new itemControler();
         novoItem.item = null;
         novoItem.quantidade = 0;
         listaItens[index] = novoItem;
@@ -162,7 +182,7 @@ public class GameController : MonoBehaviour {
             GameObject.Find("TimeBar").GetComponent<RectTransform>().sizeDelta = new Vector2(380 * restartTimer / tempoParaReiniciar, 10);
             if (restartTimer >= tempoParaReiniciar)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name,LoadSceneMode.Single);
             }
         }
     }
@@ -316,7 +336,7 @@ public class GameController : MonoBehaviour {
                 itemUsado.transform.localScale = auxS;
             }
 
-            DB.itemLista novoItem = new DB.itemLista();
+            itemControler novoItem = new itemControler();
             if (itensEquipados[index].quantidade - 1 <= 0)
             {
                 novoItem.item = null;
@@ -344,7 +364,7 @@ public class GameController : MonoBehaviour {
             Vector3 auxS = new Vector3(itemUsado.transform.localScale.x * pivo, itemUsado.transform.localScale.y, itemUsado.transform.localScale.z);
             itemUsado.transform.localScale = auxS;
 
-            DB.itemLista novoItem = new DB.itemLista();
+            itemControler novoItem = new itemControler();
             if (itensEquipados[index].quantidade - 1 <= 0)
             {
                 novoItem.item = null;
@@ -366,7 +386,7 @@ public class GameController : MonoBehaviour {
             GameObject itemUsado = Instantiate(itensEquipados[index].item,player.transform.position,player.transform.rotation,player.transform);
             itemUsado.GetComponent<ItensBase>().setDirecao(Vector3.zero);
 
-            DB.itemLista novoItem = new DB.itemLista();
+            itemControler novoItem = new itemControler();
             if (itensEquipados[index].quantidade - 1 <= 0)
             {
                 novoItem.item = null;

@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MorcegoBoss : Inimigos {
 
-    private Rigidbody2D rbody;
-    private Collider2D colliderBoss;
-    private Animator animationBoss;
+    private float timeMorteDecorrido = 0;
 
     public override void moverToPlay()
     {
@@ -28,8 +26,14 @@ public class MorcegoBoss : Inimigos {
 
     public override void morrer()
     {
-        DB baseDado = GameObject.Find("DB").GetComponent<DB>();
-        baseDado.updateDados();
-        SceneManager.LoadScene("Win");
+        transform.position = Vector3.MoveTowards(transform.position, Vector3.down, Time.deltaTime * velocidade);
+        timeMorteDecorrido += Time.deltaTime;
+        Time.timeScale = 0.2f;
+        if (timeMorteDecorrido > 0.7)
+        {
+            DB baseDado = GameObject.Find("DB").GetComponent<DB>();
+            baseDado.updateDados();
+            SceneManager.LoadScene("Win");
+        }
     }
 }
