@@ -16,17 +16,17 @@ public class PainelConfig : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetAxisRaw("Vertical") > 0)
         {
             if (index - 1 >= 0)
                 index -= 1;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetAxisRaw("Vertical") < 0)
         {
             if (index + 1 < listaSlots.Count)
                 index += 1;
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetButtonDown("Submit"))
         {
             getEvento(listaSlots[index].name);
         }

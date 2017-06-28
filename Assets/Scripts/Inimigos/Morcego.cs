@@ -8,4 +8,19 @@ public class Morcego : Inimigos {
     {
         transform.position = Vector3.MoveTowards(transform.position, player.position, Time.deltaTime * velocidade);
     }
+
+    public override void moverToHouse()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, casa, Time.deltaTime * velocidade);
+    }
+
+    public override void exibVitalidade()
+    {
+
+    }
+
+    public override void morrer()
+    {
+        Destroy(gameObject, 0.2f);
+    }
 }

@@ -12,6 +12,9 @@ public class PainelInventario : MonoBehaviour {
     private int indexPainel = 0;
     public List<GameObject> listaButtonPainel = new List<GameObject>();
 
+    private bool axiX = true;
+    private bool axiY = true;
+
     // Use this for initialization
     void Start()
     {
@@ -27,31 +30,41 @@ public class PainelInventario : MonoBehaviour {
             listaSlots[i].GetComponent<SlotScript>().setSlot(gameController.listaItens[i].item, gameController.listaItens[i].quantidade);
         }
 
+        if (Input.GetAxisRaw("Horizontal") == 0)
+            axiX = true;
+
+        if (Input.GetAxisRaw("Vertical") == 0)
+            axiY = true;
+
         if (!painelConfirme.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetAxisRaw("Horizontal") < 0 && axiX)
             {
+                axiX = false;
                 index -= 1;
             }
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetAxisRaw("Horizontal") > 0 && axiX)
             {
+                axiX = false;
                 index += 1;
             }
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetAxisRaw("Vertical") > 0 && axiY)
             {
+                axiY = false;
                 if (index - 4 >= 0)
                 {
                     index -= 4;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetAxisRaw("Vertical") < 0 && axiY)
             {
+                axiY = false;
                 if (index + 4 < listaSlots.Count)
                 {
                     index += 4;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetButtonDown("Submit"))
             {
                 if (gameController.getItemEquipamento() == -1)
                     criarPainelConfirme();
@@ -65,19 +78,19 @@ public class PainelInventario : MonoBehaviour {
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetAxisRaw("Vertical") > 0 && axiY)
             {
                 indexPainel--;
                 if (indexPainel < 0)
                     indexPainel = 2;
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetAxisRaw("Vertical") < 0 && axiY)
             {
                 indexPainel++;
                 if (indexPainel > 2)
                     indexPainel = 0;
             }
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetButtonDown("Submit"))
             {
                 enterPainel();
             }

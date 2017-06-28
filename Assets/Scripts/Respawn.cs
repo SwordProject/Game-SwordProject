@@ -12,6 +12,11 @@ public class Respawn : MonoBehaviour
         baseDado = GameObject.Find("DB").GetComponent<DB>();
     }
 
+    private void Update()
+    {
+        transform.Rotate(new Vector3(0, 0, -10));
+    }
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")

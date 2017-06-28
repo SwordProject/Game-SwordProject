@@ -59,10 +59,7 @@ public class DB : MonoBehaviour {
         vitalidade = player.getVitalidade();
         energia = player.getEnergia();
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
-    }
-
-    public void setDadosInventario()
-    {
-        gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        this.listaItens = gameController.listaItens;
+        this.itensEquipados = gameController.itensEquipados;
     }
 }

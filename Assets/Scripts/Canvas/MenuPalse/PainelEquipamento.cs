@@ -10,6 +10,9 @@ public class PainelEquipamento : MonoBehaviour {
     private int index = 0;
     private GameController gameController;
 
+    private bool axiX = true;
+    private bool axiY = true;
+
     // Use this for initialization
     void Start () {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
@@ -22,25 +25,35 @@ public class PainelEquipamento : MonoBehaviour {
             SlotScript slot = listaSlots[i].GetComponent<SlotScript>();
             slot.setSlot(gameController.itensEquipados[i].item, gameController.itensEquipados[i].quantidade);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetAxisRaw("Horizontal") < 0 && axiX)
         {
             index -= 1;
+            axiX = false;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetAxisRaw("Horizontal") > 0 && axiX)
         {
             index += 1;
+            axiX = false;
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if(Input.GetAxisRaw("Horizontal") == 0)
+            axiX = true;
+
+        if (Input.GetAxisRaw("Vertical") > 0 && axiY)
         {
-            if(index - pulodeSlot >= 0)
+            axiY = false;
+            if (index - pulodeSlot >= 0)
                 index -= pulodeSlot;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetAxisRaw("Vertical") < 0 && axiY)
         {
+            axiY = false;
             if (index + pulodeSlot < listaSlots.Count)
                 index += pulodeSlot;
         }
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetAxisRaw("Vertical") == 0)
+            axiY = true;
+
+        if (Input.GetButtonDown("Submit") && axiY)
         {
             gameController.setItemEquipamento(index);
         }

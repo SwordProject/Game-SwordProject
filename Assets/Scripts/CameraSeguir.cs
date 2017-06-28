@@ -25,10 +25,10 @@ public class CameraSeguir : MonoBehaviour {
 
     public void setScreenBack()
     {
-        positionScreenX = -3f;
+        positionScreenX = -5f;
     }
     public void setScreenFront()
     {
-        positionScreenX = 3f;
+        positionScreenX = 5f;
     }
 }

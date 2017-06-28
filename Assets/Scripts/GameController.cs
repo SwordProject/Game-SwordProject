@@ -22,7 +22,6 @@ public class GameController : MonoBehaviour {
     private int indexIven = -1;
     private int indexEqui = -1;
 
-
     private DB baseDado;
 
     void Start()
@@ -41,6 +40,29 @@ public class GameController : MonoBehaviour {
         {
             setActiveMenu();
         }
+
+        /*if(itensEquipados[1].item!=null && itensEquipados[1].quantidade == 1)
+        {
+            Vector3 playerPivo = player.transform.GetChild(2).transform.position;
+            GameObject itemUsado = Instantiate(itensEquipados[1].item, playerPivo, player.transform.rotation);
+            itemUsado.GetComponent<ItensBase>().setDirecao(playerPivo);
+
+            DB.itemLista novoItem = new DB.itemLista();
+            novoItem.item = itensEquipados[1].item;
+            novoItem.quantidade = 2;
+            itensEquipados[1] = novoItem;
+        }
+        if (itensEquipados[3].item != null && itensEquipados[3].quantidade == 1)
+        {
+            Vector3 playerPivo = player.transform.GetChild(2).transform.position;
+            GameObject itemUsado = Instantiate(itensEquipados[3].item, playerPivo, player.transform.rotation);
+            itemUsado.GetComponent<ItensBase>().setDirecao(playerPivo);
+
+            DB.itemLista novoItem = new DB.itemLista();
+            novoItem.item = itensEquipados[3].item;
+            novoItem.quantidade = 2;
+            itensEquipados[3] = novoItem;
+        }*/
 
         if (indexIven!=-1 && indexEqui != -1)
         {

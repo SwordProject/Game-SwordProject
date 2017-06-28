@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     //Variaveis de movimentação
     private Rigidbody2D playerRigidbody2D;
     private float jumpForce;
+    private bool itJump = false;
     private float speed;
+    private float defesa=0;
 
     //variavel que pega a posição de inicio e fim do raicast.
     //O raicast será usado para definir quando o personagem está no chão ou não.
@@ -55,7 +57,7 @@ public class PlayerController : MonoBehaviour
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         playerRigidbody2D = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
-        jumpForce = 500;
+        jumpForce = 400;
         //Inicia a barra de vitalidade do personagem
         atack = false;
     }
@@ -91,24 +93,35 @@ public class PlayerController : MonoBehaviour
 
         if (estaNoCaho)
         {
+            itJump = false;
             if (Input.GetButtonDown("Jump"))
             {
                 playerRigidbody2D.AddForce(new Vector2(0, jumpForce));
                 SoundScript.Instance.MakeJumpSound();
                 estaNoCaho = false;
+                itJump = true;
             }
-            speed = 8;
             timeQueda = 0;
+            if (atack)
+                speed = 3;
+            else
+                speed = 8;
         }
         else
         {
+            if (Input.GetButton("Jump")&&itJump)
+            {
+                if (energia > 0)
+                {
+                    removeEnargia(0.1f);
+                    playerRigidbody2D.AddForce(new Vector2(0, 3 - (timeQueda / 3)));
+                }
+            }
             timeQueda += Time.deltaTime;
-            if (timeQueda > 3)
+            if (timeQueda > 5)
                 addDano(100);
             speed = 6;
         }
-        if (atack)
-            speed = 3;
 
         transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
 
@@ -116,7 +129,7 @@ public class PlayerController : MonoBehaviour
         {
             if (energia > 0)
             {
-                removeEnargia(20);
+                removeEnargia(15);
                 gameController.usarMagia(0, inimigoMaisProximo());
             }
         }
@@ -189,6 +202,7 @@ public class PlayerController : MonoBehaviour
     public void addDano(float dano)
     {
         particulaSangue.Play();
+        dano -= dano * defesa / 100;
         if (vitalidade - dano <= 0)
         {
             vitalidade = 0;
@@ -230,6 +244,32 @@ public class PlayerController : MonoBehaviour
         else
         {
             energia += mp;
+        }
+    }
+
+    public void addDefesa(float defesa)
+    {
+
+        if (this.defesa + defesa >= 75)
+        {
+            this.defesa = 75;
+        }
+        else
+        {
+            this.defesa += defesa;
+        }
+    }
+
+    public void removeDefesa(float defesa)
+    {
+
+        if (this.defesa - defesa <= 0)
+        {
+            this.defesa = 0;
+        }
+        else
+        {
+            this.defesa -= defesa;
         }
     }
 

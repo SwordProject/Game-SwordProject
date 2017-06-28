@@ -7,7 +7,7 @@ public abstract class Inimigos : MonoBehaviour
     //Atributos do Sangue
     public float vitalidade = 100;
     public ParticleSystem particulaSangue;
-    private Vector3 casa;
+    public Vector3 casa;
 
     //atributo Inimigo
     public int distanciaReacao;
@@ -39,7 +39,7 @@ public abstract class Inimigos : MonoBehaviour
         if (vitalidade <= 0)
         {
             particulaSangue.Play();
-            Destroy(gameObject,0.2f);
+            morrer();
         }
         if (timeDecisao >= 3)
         {
@@ -53,10 +53,23 @@ public abstract class Inimigos : MonoBehaviour
         float distplay = Vector3.Distance(player.position, transform.position);
         if (distplay < distanciaReacao && distplay > 1)
         {
+            float direcao = 0;
             if (player.position.x < transform.position.x)
-                transform.localScale = new Vector3(1, 1, 1);
+            {
+                if (transform.localScale.x > 0)
+                    direcao = 1;
+                else
+                    direcao = -1;
+            }
             else
-                transform.localScale = new Vector3(-1, 1, 1);
+            {
+                if(transform.localScale.x < 0)
+                    direcao = 1;
+                else
+                    direcao = -1;
+            }
+            Vector3 direcaoInimigo = transform.localScale;
+            transform.localScale = new Vector3(direcao*direcaoInimigo.x, direcaoInimigo.y, direcaoInimigo.z);
             switch (decisao)
             {
                 case 0:
@@ -75,12 +88,17 @@ public abstract class Inimigos : MonoBehaviour
             }
             if (distplay > distanciaReacao * 1.2f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, casa, Time.deltaTime * velocidade);
+                moverToHouse();
             }
         }
+
+        exibVitalidade();
     }
 
     public abstract void moverToPlay();
+    public abstract void moverToHouse();
+    public abstract void exibVitalidade();
+    public abstract void morrer();
 
     private void ataquePerto()
     {
@@ -95,13 +113,7 @@ public abstract class Inimigos : MonoBehaviour
     {
         if (timeAtack >= tempoEntreAtackLonge)
         {
-            float pivo = 0;
-            if (transform.localScale.x <= 0)
-                pivo = 1.5f;
-            else
-                pivo = -1.5f;
-            GameObject itemUsado = Instantiate(arremessavel, new Vector3(transform.position.x + pivo, transform.position.y), transform.rotation);
-            itemUsado.GetComponent<ItensBase>().setDirecao(player.position - transform.position);
+            usarMagia(player.position);
             timeAtack = 0;
         }
     }
@@ -117,5 +129,13 @@ public abstract class Inimigos : MonoBehaviour
         {
             vitalidade -= dano;
         }
+    }
+
+    public void usarMagia(Vector3 direcaoInimigo)
+    {
+        Vector3 playerPivo = transform.position;
+        Vector3 direcao = direcaoInimigo - playerPivo;
+        GameObject itemUsado = Instantiate(arremessavel, Vector3.Normalize(direcao) * 2 + playerPivo, player.transform.rotation);
+        itemUsado.GetComponent<ItensBase>().setDirecao(direcao);
     }
 }
