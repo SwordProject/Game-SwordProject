@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     //Variaveis de movimentação
     private Rigidbody2D playerRigidbody2D;
     private float jumpForce;
+    private float timeInsertJump = 0;
     private bool itJump = false;
     private float speed;
     private float defesa=0;
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
     {
         if (durationAtack == 0 && timeDecorridoAtack >= tempoEntreAtack)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButton("Atack"))
             {
                 atack = true;
                 darDano = true;
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour
                 estaNoCaho = false;
                 itJump = true;
             }
+            timeInsertJump = 0;
             timeQueda = 0;
             if (atack)
                 speed = 3;
@@ -114,7 +116,8 @@ public class PlayerController : MonoBehaviour
                 if (energia > 0)
                 {
                     removeEnargia(0.1f);
-                    playerRigidbody2D.AddForce(new Vector2(0, 3 - (timeQueda / 3)));
+                    playerRigidbody2D.AddForce(new Vector2(0, 3 - (timeInsertJump / 3)));
+                    timeInsertJump += 0;
                 }
             }
             timeQueda += Time.deltaTime;
@@ -125,24 +128,23 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(new Vector3(Input.GetAxis("Horizontal"), 0) * Time.deltaTime * speed);
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetButtonDown("Fire1"))
         {
             if (energia > 0)
             {
-                removeEnargia(15);
                 gameController.usarMagia(0, inimigoMaisProximo());
             }
         }
         localizaInimigos();
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetButtonDown("Fire2"))
             gameController.usarArremessavel(2, inimigoMaisProximo());
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetButtonDown("Fire3"))
             gameController.usarItem(4);
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetButtonDown("Fire4"))
             gameController.usarItem(5);
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetButtonDown("Fire5"))
             gameController.usarItem(6);
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetButtonDown("Fire6"))
             gameController.usarItem(7);
         timeDecorridoAtack += Time.deltaTime;
     }

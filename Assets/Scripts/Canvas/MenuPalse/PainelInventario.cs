@@ -81,12 +81,14 @@ public class PainelInventario : MonoBehaviour {
             if (Input.GetAxisRaw("Vertical") > 0 && axiY)
             {
                 indexPainel--;
+                axiY = false;
                 if (indexPainel < 0)
                     indexPainel = 2;
             }
             if (Input.GetAxisRaw("Vertical") < 0 && axiY)
             {
                 indexPainel++;
+                axiY = false;
                 if (indexPainel > 2)
                     indexPainel = 0;
             }

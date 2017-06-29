@@ -17,14 +17,14 @@ public class MenuPause : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetButtonDown("Back"))
         {
             isActiveTab -= 1;
             if(isActiveTab<0)
                 isActiveTab = 0;
             activeTab(isActiveTab);
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Next"))
         {
             isActiveTab += 1;
             if (isActiveTab > listaPaineis.Count-1)

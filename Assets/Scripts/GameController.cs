@@ -54,9 +54,7 @@ public class GameController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(listaItens.Count);
-        Debug.Log(baseDado.listaItensDB.Count);
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Cancel"))
         {
             setActiveMenu();
         }
@@ -316,6 +314,7 @@ public class GameController : MonoBehaviour {
     {
         if (itensEquipados[index].item != null)
         {
+            player.GetComponent<PlayerController>().removeEnargia(15);
             if (!Vector3.Equals(direcaoInimigo, Vector3.zero))
             {
                 Vector3 playerPivo = player.transform.GetChild(2).transform.position;
